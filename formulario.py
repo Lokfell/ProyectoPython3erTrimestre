@@ -159,7 +159,7 @@ def consultar():
 #  Crear la ventana principal de la aplicación
 app=tk.Tk()
 app.title("Formulario de Datos Personales del Alumno")
-app.geometry("500x495")
+app.geometry("505x610")
 
 ttk.Label(app, text="Datos del Alumno", font=("Arial", 17), foreground="#683DCC").grid(column=1, row=0, padx=10, pady=10)
 
@@ -183,16 +183,24 @@ ttk.Label(app, text="Email", font=("Arial", 11)).grid(column=0, row=5, padx=10, 
 entry_email = ttk.Entry(app, width=50)    
 entry_email.grid(column=1, row=5)
 
-ttk.Label(app, text="Dirección", font=("Arial", 11)).grid(column=0, row=6, padx=10, pady=10)
+ttk.Label(app, text="Nacionalidad", font=("Arial", 11)).grid(column=0, row=6, padx=10, pady=10)
+entry_nacionalidad = ttk.Entry(app, width=50)
+entry_nacionalidad.grid(column=1, row=6)
+
+ttk.Label(app, text="Ciudad", font=("Arial", 11)).grid(column=0, row=7, padx=10, pady=10)
+entry_ciudad = ttk.Entry(app, width=50)
+entry_ciudad.grid(column=1, row=7)
+
+ttk.Label(app, text="Dirección", font=("Arial", 11)).grid(column=0, row=8, padx=10, pady=10)
 entry_direccion = ttk.Entry(app, width=50)
-entry_direccion.grid(column=1, row=6)
+entry_direccion.grid(column=1, row=8)
 
 # Agrega un Label para el área de texto
-ttk.Label(app, text="Resultado", font=("Arial", 11)).grid(column=0, row=7, padx=10, pady=10)
+ttk.Label(app, text="Resultado", font=("Arial", 11)).grid(column=0, row=9, padx=10, pady=10)
 
 # Crea el widget Text (área de texto)
 text_resultado = tk.Text(app, height=6, width=40, font=("Arial", 10))
-text_resultado.grid(column=1, row=7, padx=10, pady=10, columnspan=1)
+text_resultado.grid(column=1, row=9, padx=10, pady=10, columnspan=1)
 
 e = ttk.Style()
 e.configure("eliminar.TButton",foreground="#000000", background="#ff0000")
@@ -203,11 +211,11 @@ i.configure("insertar.TButton",  foreground="#000000", background="#0fca37")
 i.map("insertar.TButton", foreground=[("active", "#0E8216")])
 
 
-ttk.Button(app, text="Insertar", command=insertar, style="insertar.TButton").grid(column=0, row=8, columnspan=1)
-ttk.Button(app, text="Actualizar", command=actualizar).grid(column=1, row=8, columnspan=1)    
-ttk.Button(app, text="Eliminar", command=eliminar, style="eliminar.TButton").grid(column=2, row=8)
+ttk.Button(app, text="Insertar", command=insertar, style="insertar.TButton").grid(column=0, row=10, columnspan=1)
+ttk.Button(app, text="Actualizar", command=actualizar).grid(column=1, row=10, columnspan=1)    
+ttk.Button(app, text="Eliminar", command=eliminar, style="eliminar.TButton").grid(column=2, row=10)
 ttk.Button(app, text="Buscar", command=consultar).grid(column=2, row=3 , columnspan=1, padx=10, pady=10)  
-ttk.Button(app, text="Limpiar", command=limpiar).grid(column=2, row=9 , columnspan=1, padx=10, pady=10)   
+ttk.Button(app, text="Limpiar", command=limpiar).grid(column=2, row=12 , columnspan=1, padx=10, pady=10)   
 # ttk.Button(app, text="Salir", command=app.quit).grid(column=2, row=8, columnspan=1, padx=10, pady=10)
 
 app.mainloop()
