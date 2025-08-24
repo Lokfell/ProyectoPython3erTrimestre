@@ -3,7 +3,7 @@ import bcrypt
 import traceback
 
 
-def insertar_usuario(usuario, clave_plana):
+def insertar_usuario(cod_alumno, usuario, clave_plana, rol):
     try:
         conexion = psycopg2.connect(
             host="localhost",
@@ -18,8 +18,8 @@ def insertar_usuario(usuario, clave_plana):
         clave_encriptada = bcrypt.hashpw(clave_plana.encode('utf-8'), bcrypt.gensalt())
 
         # Insertar usuario
-        consulta = "INSERT INTO usuarios (usuario, clave) VALUES (%s, %s)"
-        cursor.execute(consulta, (usuario, clave_encriptada.decode('utf-8')))
+        consulta = "INSERT INTO usuarios (cod_alumno, usuario, clave, rol) VALUES (%s, %s, %s, %s)"
+        cursor.execute(consulta, (cod_alumno, usuario, clave_encriptada.decode('utf-8'), rol))
 
         conexion.commit()
         cursor.close()
@@ -29,8 +29,6 @@ def insertar_usuario(usuario, clave_plana):
         print("Error al insertar usuario:")
         traceback.print_exc()
         
-if __name__ == "__main__":
-    insertar_usuario("admin", "12345")
-    # insertar_usuario("admin", "12345")
 
-# insertar_usuario("admin", "12345")
+if __name__ == "__main__":
+    insertar_usuario("8128602", "Mel", "123", "Alumno/a")

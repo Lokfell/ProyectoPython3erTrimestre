@@ -3,8 +3,6 @@
 ----------------------------------------------------------
 select *from usuarios
 drop table usuarios
-delete from usuarios where id=5;
-/* clave encriptada 123: $2b$12$ygANya4pGectSicLkcJ2HuqhZxmQlurAsiLqRV0eALv9ADuryWdCy */
 ----------------------------------------------------------
 /*CONSULTA A TABLA ROLES*/
 ----------------------------------------------------------
@@ -26,6 +24,7 @@ drop table ciudades
 ----------------------------------------------------------
 select *from departamentos 
 drop table departamentos
+delete from departamentos where id=1;
 ----------------------------------------------------------
 /*CONSULTA A TABLA NACIONALIDADES*/
 ----------------------------------------------------------
@@ -41,7 +40,6 @@ drop table carreras
 ----------------------------------------------------------
 select *from extensiones
 drop table extensiones
-
 ----------------------------------------------------------
 /*CREACION DE TABLA ROLES*/
 ----------------------------------------------------------
@@ -91,16 +89,58 @@ create table departamentos (
 );
 
 insert into departamentos (nombre) 
+values('Alto Paraguay');
+
+insert into departamentos (nombre) 
+values('Alto Paraná');
+
+insert into departamentos (nombre) 
+values('Amambay');
+
+insert into departamentos (nombre) 
+values('Boquerón');
+
+insert into departamentos (nombre) 
+values('Caaguazú');
+
+insert into departamentos (nombre) 
+values('Caazapá');
+
+insert into departamentos (nombre) 
+values('Canindeyú');
+
+insert into departamentos (nombre) 
+values('Capital');
+
+insert into departamentos (nombre) 
 values('Central');
+
+insert into departamentos (nombre) 
+values('Concepción');
 
 insert into departamentos (nombre) 
 values('Coordillera');
 
 insert into departamentos (nombre) 
+values('Guairá');
+
+insert into departamentos (nombre) 
+values('Itapúa');
+
+insert into departamentos (nombre) 
+values('Misiones');
+
+insert into departamentos (nombre) 
+values('Ñeembucú');
+
+insert into departamentos (nombre) 
 values('Paraguarí');
 
 insert into departamentos (nombre) 
-values('Capital');
+values('Presidente Hayes');
+
+insert into departamentos (nombre) 
+values('San Pedro');
 
 ----------------------------------------------------------
 /*CREACION DE TABLA CIUDADES*/
@@ -176,16 +216,16 @@ CREATE TABLE usuarios (
 );
 
 insert into usuarios (cod_Alumno, usuario, clave, rol) 
-values('8128602','Mel','$2b$12$ygANya4pGectSicLkcJ2HuqhZxmQlurAsiLqRV0eALv9ADuryWdCy','Alumno/a');
+values('8128602','Mel','123','Alumno/a');
 
 insert into usuarios (cod_Alumno, usuario, clave, rol) 
-values('6592374','Juan','$2b$12$ygANya4pGectSicLkcJ2HuqhZxmQlurAsiLqRV0eALv9ADuryWdCy','Alumno/a');
+values('6592374','Juan','123','Alumno/a');
 
 insert into usuarios (cod_Alumno, usuario, clave, rol) 
-values('8123640','Car','$2b$12$ygANya4pGectSicLkcJ2HuqhZxmQlurAsiLqRV0eALv9ADuryWdCy','Alumno/a');
+values('8123640','Car','123','Alumno/a');
 
 insert into usuarios (cod_Alumno, usuario, clave, rol) 
-values('4523961','Pedro','$2b$12$ygANya4pGectSicLkcJ2HuqhZxmQlurAsiLqRV0eALv9ADuryWdCy','Alumno/a');
+values('4523961','Pedro','123','Alumno/a');
 
 ALTER TABLE usuarios add foreign key (rol) references roles(descripción);
 ALTER TABLE usuarios add foreign key (cod_Alumno) references alumnos(ci);
