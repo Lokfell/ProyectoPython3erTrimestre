@@ -1,8 +1,9 @@
-import tkinter as tk
+import tkinter as tk 
 from tkinter import ttk, messagebox
 import bcrypt
 import conexion
 import FormularioMenu
+
 def verificar_login():
     try:
         usuario = entry_usuario.get()
@@ -11,7 +12,8 @@ def verificar_login():
         conn = conexion.conexion()
         cursor = conn.cursor()
 
-        consulta = "SELECT clave FROM usuarios WHERE usuario = %s"
+        # Traemos también el rol para decidir después
+        consulta = "SELECT clave, rol FROM usuarios WHERE usuario = %s"
         cursor.execute(consulta, (usuario,))
         resultado = cursor.fetchone()
 
@@ -19,11 +21,18 @@ def verificar_login():
         conn.close()
 
         if resultado:
-            clave_encriptada = resultado[0].encode('utf-8')
+            clave_encriptada, rol = resultado
+            clave_encriptada = clave_encriptada.encode('utf-8')
+
             if bcrypt.checkpw(clave_ingresada.encode('utf-8'), clave_encriptada):
-                messagebox.showinfo("Éxito", "Bienvenido")
-                app.withdraw()  # Oculta la ventana de login
-                FormularioMenu.menu()  # Abre el MENU
+                if rol == "Alumno/a":
+                    messagebox.showinfo("Éxito", "Bienvenido Alumno/a")
+                    app.withdraw()  
+                    FormularioMenu.menu()   # Abre menú de alumno
+                else:
+                    messagebox.showinfo("Éxito", f"Bienvenido {rol}")
+                    app.withdraw()
+                    FormularioMenu.menuA()  # Abre menú de administrador u otro rol
                 return True
             else:
                 messagebox.showerror("Error", "Clave incorrecta")

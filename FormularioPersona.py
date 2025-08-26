@@ -1,9 +1,14 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import conexion
+import FormularioMenu
 
 def mostrar_formulario():
     # ---- Funciones de la aplicación ----
+    def volver():
+        app.destroy()
+        FormularioMenu.menu()
+        
     def limpiar():
         entry_apellido.delete(0, tk.END)
         entry_ci.delete(0, tk.END)
@@ -19,7 +24,7 @@ def mostrar_formulario():
         try:
             conn = conexion.conexion()
             with conn.cursor() as cursor:
-                cursor.execute('SELECT "descripción" FROM nacionalidades')  # ⚠️ mejor sin tilde en la DB #Lo cambiare cuando no me de hueva
+                cursor.execute('SELECT descripcion FROM nacionalidades')  # ⚠️ mejor sin tilde en la DB #Lo cambiare cuando no me de hueva
                 resultados = cursor.fetchall()
                 opciones = [fila[0] for fila in resultados]
             conn.close()
@@ -62,7 +67,7 @@ def mostrar_formulario():
             conn = conexion.conexion()
             cursor = conn.cursor()
             cursor.execute(
-                """INSERT INTO alumnos (nombre, apellido, ci, telefono, email, nacionalidad, ciudad, direccion) 
+                """INSERT INTO personas (nombre, apellido, ci, telefono, email, nacionalidad, ciudad, direccion) 
                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
                 (nombre, apellido, ci, telefono, email, nacionalidad, ciudad, direccion))
             conn.commit()
@@ -92,7 +97,7 @@ def mostrar_formulario():
             conn = conexion.conexion()
             cursor = conn.cursor()
             cursor.execute(
-                """UPDATE alumnos SET nombre=%s, apellido=%s, telefono=%s, email=%s, 
+                """UPDATE personas SET nombre=%s, apellido=%s, telefono=%s, email=%s, 
                           nacionalidad=%s, ciudad=%s, direccion=%s WHERE ci=%s""",
                 (nombre, apellido, telefono, email, nacionalidad, ciudad, direccion, ci))
             conn.commit()
@@ -113,7 +118,7 @@ def mostrar_formulario():
         try:
             conn = conexion.conexion()
             cursor = conn.cursor()
-            cursor.execute("DELETE FROM alumnos WHERE ci=%s", (ci,))
+            cursor.execute("DELETE FROM personas WHERE ci=%s", (ci,))
             conn.commit()
             limpiar()
             messagebox.showinfo("Éxito", "Datos eliminados correctamente")
@@ -134,7 +139,7 @@ def mostrar_formulario():
             conn = conexion.conexion()
             cursor = conn.cursor()
             cursor.execute("""SELECT ci, nombre, apellido, telefono, email, nacionalidad, ciudad, direccion 
-                              FROM alumnos WHERE ci=%s""", (ci,))
+                              FROM personas WHERE ci=%s""", (ci,))
             result = cursor.fetchone()
 
             if result:
@@ -203,6 +208,7 @@ def mostrar_formulario():
     ttk.Button(app, text="Actualizar", command=actualizar).grid(column=1, row=10, pady=10)
     ttk.Button(app, text="Eliminar", command=eliminar).grid(column=2, row=10, pady=10)
     ttk.Button(app, text="Buscar", command=consultar).grid(column=2, row=3, padx=10, pady=5)
+    ttk.Button(app, text="🔙", command=volver).grid(column=1, row=12, padx=10, pady=5)
     ttk.Button(app, text="Limpiar", command=limpiar).grid(column=2, row=12, padx=10, pady=5)
 
     app.mainloop()

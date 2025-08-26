@@ -8,11 +8,28 @@ drop table usuarios
 ----------------------------------------------------------
 select *from roles
 drop table roles
+
+ALTER TABLE roles RENAME COLUMN descripción TO descripcion;
+
+ALTER TABLE extensiones RENAME COLUMN descripción TO descripcion;
+
+ALTER TABLE carreras RENAME COLUMN descripción TO descripcion;
+
+ALTER TABLE nacionalidades RENAME COLUMN descripción TO descripcion;
+
+ALTER TABLE alumnos RENAME TO personas;
+
+ALTER TABLE extensiones RENAME COLUMN cod_alumno TO cod_persona;
+
+ALTER TABLE usuarios RENAME COLUMN cod_alumno TO cod_persona;
+
+
 ----------------------------------------------------------
-/*CONSULTA A TABLA ALUMNOS*/
+/*CONSULTA A TABLA PERSONAS*/
 ----------------------------------------------------------
-select *from alumnos 
-drop table alumnos
+select *from personas 
+drop table personas
+delete from personas where id=6;
 ----------------------------------------------------------
 /*CONSULTA A TABLA CIUDADES*/
 ----------------------------------------------------------
@@ -40,24 +57,26 @@ drop table carreras
 ----------------------------------------------------------
 select *from extensiones
 drop table extensiones
+
+drop table extensiones cascade
 ----------------------------------------------------------
 /*CREACION DE TABLA ROLES*/
 ----------------------------------------------------------
 CREATE TABLE roles (
     id SERIAL PRIMARY KEY,
-    descripción VARCHAR(50) UNIQUE NOT NULL
+    descripcion VARCHAR(50) UNIQUE NOT NULL
 );
 
-insert into roles (descripción) 
+insert into roles (descripcion) 
 values('Administrador');
 
-insert into roles (descripción) 
+insert into roles (descripcion) 
 values('Docente');
 
-insert into roles (descripción) 
+insert into roles (descripcion) 
 values('Alumno/a');
 
-insert into roles (descripción) 
+insert into roles (descripcion) 
 values('Secretario/a');
 
 ----------------------------------------------------------
@@ -65,19 +84,19 @@ values('Secretario/a');
 ----------------------------------------------------------
 create table nacionalidades (
 	id serial primary key,
-	descripción varchar(20) unique not null
+	descripcion varchar(20) unique not null
 );
 
-insert into nacionalidades (descripción) 
+insert into nacionalidades (descripcion) 
 values('Paraguayo/a');
 
-insert into nacionalidades (descripción) 
+insert into nacionalidades (descripcion) 
 values('Argentino/a');
 
-insert into nacionalidades (descripción) 
+insert into nacionalidades (descripcion) 
 values('Brasilero/a');
 
-insert into nacionalidades (descripción) 
+insert into nacionalidades (descripcion) 
 values('Uruguayo/a');
 
 ----------------------------------------------------------
@@ -175,9 +194,9 @@ values('Asunción','Capital');
 ALTER TABLE ciudades add foreign key (departamento) references departamentos(nombre);
 
 ----------------------------------------------------------
-/*CREACION DE TABLA ALUMNOS*/
+/*CREACION DE TABLA PERSONAS*/
 ----------------------------------------------------------
-create table alumnos (
+create table personas (
 	id serial primary key,
 	ci varchar unique not null,
 	nombre varchar(20) not null,
@@ -189,87 +208,92 @@ create table alumnos (
 	email varchar(20) not null
 );
 
-insert into alumnos (ci, nombre, apellido, telefono, nacionalidad, ciudad, direccion, email) 
+insert into personas (ci, nombre, apellido, telefono, nacionalidad, ciudad, direccion, email) 
 values( '8128602','Melissa','Oviedo','0972676396','Paraguayo/a','Itagua','Itagua','meloviedo@gmail.com');
 
-insert into alumnos (ci, nombre, apellido, telefono, nacionalidad, ciudad, direccion, email) 
+insert into personas (ci, nombre, apellido, telefono, nacionalidad, ciudad, direccion, email) 
 values( '6592374','Juan','Orue','0981963246','Paraguayo/a','Capiatá','Capiatá','juan@gmail.com');
 
-insert into alumnos (ci, nombre, apellido, telefono, nacionalidad, ciudad, direccion, email) 
+insert into personas (ci, nombre, apellido, telefono, nacionalidad, ciudad, direccion, email) 
 values( '4523961','Pedro','Veron','0972305981','Argentino/a','J. Augusto Saldivar','J. Agusto','pedrito@gmail.com');
 
-insert into alumnos (ci, nombre, apellido, telefono, nacionalidad, ciudad, direccion, email) 
+insert into personas (ci, nombre, apellido, telefono, nacionalidad, ciudad, direccion, email) 
 values( '8123640','Carmen','Sanabria','0985962460','Brasilero/a','Guarambaré','Guarambaré','carmen@gmail.com');
 
-ALTER TABLE alumnos add foreign key (ciudad) references ciudades(nombre);
-ALTER TABLE alumnos add foreign key (nacionalidad) references nacionalidades(descripción);
+insert into personas (ci, nombre, apellido, telefono, nacionalidad, ciudad, direccion, email) 
+values( '123456','Hechicero','Supremo','0972676396','Paraguayo/a','Itagua','Itagua','lucascuak@gmail.com');
+
+ALTER TABLE personas add foreign key (ciudad) references ciudades(nombre);
+ALTER TABLE personas add foreign key (nacionalidad) references nacionalidades(descripcion);
 
 ----------------------------------------------------------
 /*CREACION DE TABLA USUARIOS*/
 ----------------------------------------------------------
 CREATE TABLE usuarios (
     id SERIAL PRIMARY KEY,
-	cod_Alumno varchar(20) not null,
+	cod_persona varchar(20) not null,
     usuario VARCHAR(50) UNIQUE NOT NULL,
     clave TEXT NOT NULL,
 	rol varchar(20) not null
 );
 
-insert into usuarios (cod_Alumno, usuario, clave, rol) 
+insert into usuarios (cod_persona, usuario, clave, rol) 
 values('8128602','Mel','123','Alumno/a');
 
-insert into usuarios (cod_Alumno, usuario, clave, rol) 
+insert into usuarios (cod_persona, usuario, clave, rol) 
 values('6592374','Juan','123','Alumno/a');
 
-insert into usuarios (cod_Alumno, usuario, clave, rol) 
+insert into usuarios (cod_persona, usuario, clave, rol) 
 values('8123640','Car','123','Alumno/a');
 
-insert into usuarios (cod_Alumno, usuario, clave, rol) 
+insert into usuarios (cod_persona, usuario, clave, rol) 
 values('4523961','Pedro','123','Alumno/a');
 
-ALTER TABLE usuarios add foreign key (rol) references roles(descripción);
-ALTER TABLE usuarios add foreign key (cod_Alumno) references alumnos(ci);
+ALTER TABLE usuarios add foreign key (rol) references roles(descripcion);
+ALTER TABLE usuarios add foreign key (cod_persona) references personas(ci);
 
 ----------------------------------------------------------
 /*CREACION DE TABLA CARRERAS*/
 ----------------------------------------------------------
 create table carreras (
 	id serial primary key,
-	descripción varchar(50) unique not null
+	descripcion varchar(50) unique not null
 );
 
-insert into carreras (descripción) 
+insert into carreras (descripcion) 
 values('Ingeniería Informática');
 
-insert into carreras (descripción) 
+insert into carreras (descripcion) 
 values('Ingeniería Comercial');
 
-insert into carreras (descripción) 
+insert into carreras (descripcion) 
 values('Licenciatura en Enfermería');
 
-insert into carreras (descripción) 
+insert into carreras (descripcion) 
 values('Licenciatura en Ciencias de la Educación');
 
 ----------------------------------------------------------
 /*CREACION DE TABLA EXTENSIONES*/
 ----------------------------------------------------------
+
+
 create table extensiones (
 	id serial primary key,
-	descripción varchar(50) unique not null,
+	descripcion varchar(50) not null,
 	horas int not null,
-	cod_Alumno varchar(20) not null,
+	cod_persona varchar(20) not null,
 	cod_Carrera varchar(50) not null
 );
 
-insert into extensiones (descripción, horas, cod_Alumno, cod_Carrera) 
+insert into extensiones (descripcion, horas, cod_persona, cod_Carrera) 
 values('Seminario', '3', '8128602', 'Ingeniería Informática');
 
-insert into extensiones (descripción, horas, cod_Alumno, cod_Carrera) 
+insert into extensiones (descripcion, horas, cod_persona, cod_Carrera) 
 values('Proyecto de extensión', '3', '8128602', 'Ingeniería Informática');
 
-insert into extensiones (descripción, horas, cod_Alumno, cod_Carrera) 
+insert into extensiones (descripcion, horas, cod_persona, cod_Carrera) 
 values('Voluntariado', '3', '8128602', 'Ingeniería Informática');
 
-ALTER TABLE extensiones add foreign key (cod_Alumno) references alumnos(ci);
-ALTER TABLE extensiones add foreign key (cod_Carrera) references carreras(descripción);
+ALTER TABLE extensiones add foreign key (cod_persona) references personas(ci);
+ALTER TABLE extensiones add foreign key (cod_Carrera) references carreras(descripcion);
 

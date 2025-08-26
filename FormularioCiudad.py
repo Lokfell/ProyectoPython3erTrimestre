@@ -1,9 +1,14 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-import conexion
+import conexion 
+import FormularioMenu
 
 def mostrar_FCiudad():
     # ---- Funciones de la aplicación ----
+    def volver():
+        app.destroy()
+        FormularioMenu.menu()
+    
     def limpiar():
         entry_nombre.delete(0, tk.END)
         combo_departamento.set("Seleccione el Departamento Correspondiente")
@@ -50,7 +55,7 @@ def mostrar_FCiudad():
     # ---- Configuración de la ventana ----
     app = tk.Tk()
     app.title("Formulario de Ciudad")
-    app.geometry("445x200")
+    app.geometry("515x200")
 
     ttk.Label(app, text="Formulario de Ciudad", font=("Arial", 17), foreground="#1CC663").grid(column=0, row=0, columnspan=2, padx=10, pady=10)
 
@@ -71,5 +76,6 @@ def mostrar_FCiudad():
 
     ttk.Button(app, text="Insertar Ciudad", command=insertar).grid(column=0, row=10, pady=10)
     ttk.Button(app, text="Limpiar", command=limpiar).grid(column=1, row=10, pady=10)
+    ttk.Button(app, text="🔙", command=volver).grid(column=2, row=10, padx=10, pady=10, sticky="e")
     
     app.mainloop()
